@@ -1,0 +1,30 @@
+.user-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    user-select: none;
+
+    object-fit: cover;
+
+    font-weight: 700;
+    font-family: Inter, Arial, sans-serif;
+
+    transition: all 0.25s ease;
+
+    cursor: pointer;
+}
+
+.user-avatar--initials {
+    background: linear-gradient(135deg, #c0431c, #4a3228 );
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.user-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}

@@ -1,0 +1,269 @@
+/* --- 1. Design Tokens --- */
+:root {
+    --color-cream: #fbf3e7;
+    --color-cream-card: #ffffff;
+    --color-espresso: #241510;
+    --color-espresso-light: #2f1e17;
+    --color-espresso-border: #4a3228;
+    --color-chili: #e85d30;
+    --color-chili-hover: #d34e23;
+    --color-chili-text: #c0431c;
+    --color-gold: #d4a24c;
+    --color-text-muted: #7a6858;
+    --color-text-faint: #b4a392;
+    --color-border: #e6d9c7;
+
+    --font-display: Georgia, "Times New Roman", serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- 2. Base Resets --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.login-body {
+    font-family: var(--font-body);
+    background-color: var(--color-cream);
+    color: var(--color-espresso);
+    height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+blockquote {
+    font-family: var(--font-display);
+    font-weight: normal;
+}
+
+/* --- 3. Split Layout --- */
+.login-layout {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* --- 4. Left Branding Panel --- */
+.brand-panel {
+    flex: 1;
+    background-color: var(--color-espresso);
+    color: var(--color-cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    border-right: 1px solid var(--color-espresso-border);
+}
+
+.brand-content {
+    max-width: 400px;
+    text-align: center;
+}
+
+.brand-logo {
+    font-size: 48px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.brand-logo span {
+    color: var(--color-chili);
+    font-style: italic;
+}
+
+.brand-tagline {
+    color: var(--color-text-faint);
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 32px;
+}
+
+.decorative-line {
+    height: 1px;
+    width: 60px;
+    background-color: var(--color-gold);
+    margin: 0 auto 32px auto;
+}
+
+.brand-quote {
+    font-size: 20px;
+    color: var(--color-text-faint);
+    font-style: italic;
+    line-height: 1.6;
+}
+
+/* --- 5. Right Form Panel --- */
+.form-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-cream);
+    padding: 40px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--color-cream-card);
+    padding: 48px;
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 10px 30px rgba(36, 21, 16, 0.05);
+}
+
+.mobile-logo {
+    display: none;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.mobile-logo span {
+    color: var(--color-chili);
+    font-style: italic;
+}
+
+.form-header {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.login-title {
+    font-size: 32px;
+    color: var(--color-espresso);
+    margin-bottom: 8px;
+}
+
+.login-subtitle {
+    color: var(--color-text-muted);
+    font-size: 15px;
+}
+
+/* --- 6. Form Inputs --- */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-espresso);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-group input {
+    padding: 14px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: var(--font-body);
+    background-color: var(--color-cream);
+    color: var(--color-espresso);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    box-shadow: 0 0 0 3px rgba(212, 162, 76, 0.15);
+}
+
+.input-group input::placeholder {
+    color: var(--color-text-faint);
+}
+
+/* --- 7. Form Actions --- */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -8px;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    accent-color: var(--color-chili);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.checkbox-label {
+    font-size: 14px;
+    color: var(--color-text-muted);
+}
+
+.forgot-link {
+    font-size: 14px;
+    color: var(--color-chili-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.forgot-link:hover {
+    color: var(--color-chili-hover);
+}
+
+/* --- 8. Buttons --- */
+.btn-primary {
+    background-color: var(--color-chili);
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-block {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-chili-hover);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}
+
+/* --- 9. Responsive Design --- */
+@media (max-width: 900px) {
+    .brand-panel {
+        display: none;
+        /* Hide branding panel on smaller screens */
+    }
+
+    .form-panel {
+        padding: 24px;
+    }
+
+    .mobile-logo {
+        display: block;
+        /* Show logo above form on mobile */
+    }
+}

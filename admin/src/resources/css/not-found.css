@@ -1,0 +1,146 @@
+/* --- 1. Design Tokens --- */
+:root {
+    --color-cream: #fbf3e7;
+    --color-cream-card: #ffffff;
+    --color-espresso: #241510;
+    --color-espresso-light: #2f1e17;
+    --color-espresso-border: #4a3228;
+    --color-chili: #e85d30;
+    --color-chili-hover: #d34e23;
+    --color-chili-text: #c0431c;
+    --color-gold: #d4a24c;
+    --color-text-muted: #7a6858;
+    --color-text-faint: #b4a392;
+
+    --font-display: Georgia, "Times New Roman", serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- 2. Base Resets --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.error-body {
+    font-family: var(--font-body);
+    background-color: var(--color-cream);
+    color: var(--color-espresso);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2 {
+    font-family: var(--font-display);
+    font-weight: normal;
+}
+
+/* --- 3. Layout Architecture --- */
+.error-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 24px;
+    text-align: center;
+}
+
+/* --- 4. Brand Styling --- */
+.error-brand {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.error-brand h2 {
+    font-size: 28px;
+    letter-spacing: 0.5px;
+    color: var(--color-espresso);
+}
+
+.error-brand span {
+    color: var(--color-chili);
+    font-style: italic;
+}
+
+/* --- 5. Error Content --- */
+.error-content {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.error-code {
+    font-size: 140px;
+    line-height: 1;
+    color: var(--color-espresso);
+    margin-bottom: 24px;
+    letter-spacing: -2px;
+    text-shadow: 4px 4px 0px rgba(212, 162, 76, 0.15);
+    /* Subtle gold shadow */
+}
+
+.decorative-line {
+    height: 2px;
+    width: 60px;
+    background-color: var(--color-gold);
+    margin-bottom: 32px;
+}
+
+.error-title {
+    font-size: 32px;
+    color: var(--color-espresso);
+    margin-bottom: 16px;
+}
+
+.error-message {
+    color: var(--color-text-muted);
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+/* --- 6. Button Styling --- */
+.btn-primary {
+    display: inline-block;
+    background-color: var(--color-chili);
+    color: white;
+    text-decoration: none;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-chili-hover);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}
+
+/* --- 7. Responsive Adjustments --- */
+@media (max-width: 600px) {
+    .error-code {
+        font-size: 100px;
+    }
+
+    .error-title {
+        font-size: 24px;
+    }
+
+    .error-message {
+        font-size: 15px;
+        padding: 0 16px;
+    }
+}

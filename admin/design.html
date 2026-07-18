@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Restaurant Dashboard</title>
+  <link rel="stylesheet" href="./design.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <h2>Maison<span>Chili</span></h2>
+      </div>
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active">
+          <span class="nav-text">Overview</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-text">Live Orders</span>
+          <span class="badge badge-chili">12</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-text">Menu Management</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-text">Reservations</span>
+          <span class="badge badge-gold">4</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-text">Analytics</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">H</div>
+          <div class="user-info">
+            <span class="user-name">Hadi</span>
+            <span class="user-role">Administrator</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="header-titles">
+          <h1>Dashboard</h1>
+          <p class="subtitle">Thursday, Oct 24 • Dinner Service</p>
+        </div>
+        <button class="btn-primary">New Order</button>
+      </header>
+
+      <!-- KPI Cards -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <h3 class="stat-title">Today's Revenue</h3>
+          <div class="stat-value">$4,250.00</div>
+          <div class="stat-trend trend-up">↑ 18% vs yesterday</div>
+        </div>
+        <div class="stat-card">
+          <h3 class="stat-title">Active Orders</h3>
+          <div class="stat-value">24</div>
+          <div class="stat-trend trend-neutral">Normal volume</div>
+        </div>
+        <div class="stat-card">
+          <h3 class="stat-title">Table Occupancy</h3>
+          <div class="stat-value">85%</div>
+          <div class="stat-trend trend-up">↑ 5% vs yesterday</div>
+        </div>
+      </section>
+
+      <!-- Recent Orders Table -->
+      <section class="orders-section">
+        <div class="section-header">
+          <h2>Recent Orders</h2>
+          <a href="#" class="view-all">View All</a>
+        </div>
+        
+        <div class="card-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Table / Type</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="order-id">#1042</td>
+                <td>Table 04</td>
+                <td class="text-muted">Truffle Risotto, Wagyu...</td>
+                <td><span class="status-pill status-preparing">Preparing</span></td>
+                <td class="order-total">$145.00</td>
+              </tr>
+              <tr>
+                <td class="order-id">#1041</td>
+                <td>Delivery</td>
+                <td class="text-muted">Spicy Rigatoni, Burrata</td>
+                <td><span class="status-pill status-ready">Ready</span></td>
+                <td class="order-total">$82.50</td>
+              </tr>
+              <tr>
+                <td class="order-id">#1040</td>
+                <td>Table 12</td>
+                <td class="text-muted">Seafood Tower, Chablis</td>
+                <td><span class="status-pill status-served">Served</span></td>
+                <td class="order-total">$310.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

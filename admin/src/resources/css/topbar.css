@@ -1,0 +1,107 @@
+/* --- Global Branding TopBar Styles --- */
+
+.global-branding-bar {
+    width: 100%;
+    background-color: var(--color-espresso);
+    border-bottom: 1px solid var(--color-espresso-border);
+    /* The subtle premium gold accent line at the very top */
+    border-top: 3px solid var(--color-gold);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.branding-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1600px;
+    /* Keeps it contained on massive screens */
+    margin: 0 auto;
+    padding: 16px 32px;
+}
+
+/* Brand Logo Styling */
+.topbar-brand .brand-link {
+    text-decoration: none;
+    display: block;
+}
+
+.topbar-brand h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--color-cream);
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.topbar-brand span {
+    color: var(--color-chili);
+    font-style: italic;
+}
+
+/* Right Side Actions */
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.topbar-date {
+    color: var(--color-text-faint);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.topbar-divider {
+    width: 1px;
+    height: 24px;
+    background-color: var(--color-espresso-border);
+}
+
+.topbar-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.topbar-profile:hover {
+    opacity: 0.8;
+}
+
+.topbar-greeting {
+    color: var(--color-cream);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.topbar-avatar {
+    width: 36px;
+    height: 36px;
+    background-color: var(--color-cream);
+    color: var(--color-chili-text);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid var(--color-border);
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 600px) {
+    .branding-container {
+        padding: 16px;
+    }
+
+    .topbar-date,
+    .topbar-divider,
+    .topbar-greeting {
+        display: none;
+        /* Hide extra text on small screens to keep it clean */
+    }
+}

@@ -1,0 +1,379 @@
+/* ---------------------------------------------------------------------- */
+/* Tokens                                                                  */
+/* ---------------------------------------------------------------------- */
+.register-page {
+    --color-cream: #fbf3e7;
+    --color-cream-card: #ffffff;
+    --color-espresso: #241510;
+    --color-espresso-light: #2f1e17;
+    --color-espresso-border: #4a3228;
+    --color-chili: #e85d30;
+    --color-chili-hover: #d34e23;
+    --color-chili-text: #c0431c;
+    --color-gold: #d4a24c;
+    --color-green: #8faf7c;
+    --color-text-muted: #7a6858;
+    --color-text-faint: #b4a392;
+    --color-border: #e6d9c7;
+    --color-error-bg: #fce9e1;
+    --color-error-border: rgba(232, 86, 47, 0.3);
+    --font-display: Georgia, "Times New Roman", serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    background: var(--color-cream);
+    font-family: var(--font-body);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Left panel — brand                                                     */
+/* ---------------------------------------------------------------------- */
+.register-brand {
+    position: relative;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    width: 46%;
+    background: var(--color-espresso);
+    padding: 3rem 3.5rem;
+}
+
+@media (min-width: 1024px) {
+    .register-brand {
+        display: flex;
+    }
+}
+
+.register-brand__glow {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    filter: blur(100px);
+}
+
+.register-brand__glow--1 {
+    top: -6rem;
+    left: -6rem;
+    height: 24rem;
+    width: 24rem;
+    background: var(--color-chili);
+    opacity: 0.2;
+}
+
+.register-brand__glow--2 {
+    bottom: 0;
+    right: 0;
+    height: 18rem;
+    width: 18rem;
+    background: var(--color-gold);
+    opacity: 0.1;
+}
+
+.register-brand__logo {
+    position: relative;
+    z-index: 10;
+    color: var(--color-cream);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+}
+
+.register-brand__logo span {
+    color: var(--color-chili);
+}
+
+.register-brand__content {
+    position: relative;
+    z-index: 10;
+    max-width: 28rem;
+}
+
+.register-brand__eyebrow {
+    color: var(--color-chili);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.register-brand__heading {
+    color: var(--color-cream);
+    font-family: var(--font-display);
+    font-size: 3rem;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.register-brand__subtext {
+    color: #d9c6b8;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.register-brand__footer {
+    position: relative;
+    z-index: 10;
+    color: #8a7365;
+    font-size: 0.75rem;
+}
+
+/* Floating trust badges */
+.register-badges {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.register-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: fit-content;
+    border-radius: 1rem;
+    border: 1px solid var(--color-espresso-border);
+    background: rgba(47, 30, 23, 0.8);
+    padding: 0.75rem 1rem;
+    color: var(--color-cream);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.register-badge--offset {
+    margin-left: 1.5rem;
+}
+
+.register-badge__icon {
+    height: 1.25rem;
+    width: 1.25rem;
+    flex-shrink: 0;
+}
+
+.register-badge__icon--orange {
+    color: var(--color-chili);
+}
+
+.register-badge__icon--gold {
+    color: var(--color-gold);
+}
+
+.register-badge__icon--green {
+    color: var(--color-green);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Right panel — form                                                     */
+/* ---------------------------------------------------------------------- */
+.register-form-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .register-form-panel {
+        padding: 3rem;
+    }
+}
+
+.register-form-wrap {
+    width: 100%;
+    max-width: 26rem;
+}
+
+.register-form-panel__logo-mobile {
+    display: block;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--color-espresso);
+}
+
+.register-form-panel__logo-mobile .accent {
+    color: var(--color-chili);
+}
+
+@media (min-width: 1024px) {
+    .register-form-panel__logo-mobile {
+        display: none;
+    }
+}
+
+.register-form-header {
+    margin-bottom: 2rem;
+}
+
+.register-form-header h2 {
+    font-family: var(--font-display);
+    font-size: 1.875rem;
+    color: var(--color-espresso);
+    margin: 0 0 0.5rem 0;
+    font-weight: 500;
+}
+
+.register-form-header p {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.link {
+    color: var(--color-chili);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.register-error-banner {
+    margin-bottom: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-error-border);
+    background: var(--color-error-bg);
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: var(--color-chili-text);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Form fields                                                            */
+/* ---------------------------------------------------------------------- */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.field label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-espresso);
+    margin-bottom: 0.375rem;
+}
+
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="password"] {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-cream-card);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: var(--color-espresso);
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field input::placeholder {
+    color: var(--color-text-faint);
+}
+
+.field input:focus {
+    outline: none;
+    border-color: transparent;
+    box-shadow: 0 0 0 2px var(--color-chili);
+}
+
+.field__input-wrap {
+    position: relative;
+}
+
+.field__input-wrap input {
+    padding-right: 2.75rem;
+}
+
+.field__toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--color-text-faint);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.field__toggle:hover {
+    color: var(--color-espresso);
+}
+
+.field__error {
+    margin-top: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--color-chili-text);
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    cursor: pointer;
+}
+
+.checkbox-row input[type="checkbox"] {
+    margin-top: 0.25rem;
+    height: 1rem;
+    width: 1rem;
+    accent-color: var(--color-chili);
+    flex-shrink: 0;
+}
+
+.checkbox-row span {
+    font-size: 0.875rem;
+    color: #5c4c3e;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Submit                                                                 */
+/* ---------------------------------------------------------------------- */
+.submit-btn {
+    width: 100%;
+    border: none;
+    border-radius: 0.75rem;
+    background: var(--color-chili);
+    padding: 0.9rem 1rem;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 8px 20px -6px rgba(232, 93, 48, 0.55);
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background: var(--color-chili-hover);
+}
+
+.submit-btn:active:not(:disabled) {
+    transform: scale(0.99);
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.register-form-panel__disclaimer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--color-text-faint);
+}
