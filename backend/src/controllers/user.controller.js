@@ -103,6 +103,7 @@ export const getLoginUser = async (req, res) => {
       }
     });
   if (loginUser) {
+    loginUser.role = 'user';
     
         return res.status(200).json({
             message: "user validated successfully",

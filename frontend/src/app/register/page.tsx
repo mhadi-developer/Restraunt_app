@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter  , redirect} from "next/navigation";
+import {  redirect} from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -86,7 +86,7 @@ export default function RegisterPage() {
       if (response.status === 200 || response.status === 201 || response.status === 304) {
           toast.success("User Created Successfully , Redirecting to Login Page")
         setTimeout(() => {
-          router.push('/login')
+          redirect('/login');
         }, 3000);
       }
 

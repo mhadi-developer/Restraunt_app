@@ -1,127 +1,44 @@
 "use client";
+import axiosInstance from "@/libs/axiosInstance";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { type MenuItem } from "@/types/imenuItems";
+import SpinnerCircle from "../Spinner";
 
-interface MenuItem {
-  id: number;
-  title: string;
-  category: string;
-  image: string;
-  price: string;
-  oldPrice?: string;
-  rating: string;
-  reviews: number;
-  description: string;
-  badge?: string;
-  badgeType?: string;
-  aosDelay?: number;
-}
 
-const menuItems: MenuItem[] = [
-  {
-    id: 1,
-    title: "Classic Smash Burger",
-    category: "burgers",
-    image: "/img/menu/1.jpg",
-    price: "$14.99",
-    oldPrice: "$18.99",
-    rating: "4.9",
-    reviews: 128,
-    description:
-      "Double smashed patty, cheddar, caramelized onions, pickles & special sauce",
-    badge: "Hot",
-    badgeType: "hot",
-  },
 
-  {
-    id: 2,
-    title: "Margherita Royale",
-    category: "pizza",
-    image: "/img/menu/2.jpg",
-    price: "$19.99",
-    oldPrice: "$24.99",
-    rating: "4.8",
-    reviews: 95,
-    description:
-      "San Marzano tomatoes, buffalo mozzarella, basil & truffle oil on sourdough",
-    badge: "New",
-    badgeType: "new",
-    aosDelay: 80,
-  },
 
-  {
-    id: 3,
-    title: "Nashville Hot Chicken",
-    category: "chicken",
-    image: "/img/menu/3.jpg",
-    price: "$12.99",
-    oldPrice: "$16.99",
-    rating: "5.0",
-    reviews: 210,
-    description:
-      "Crispy fried chicken in fiery Nashville spice blend with honey drizzle",
-    badge: "Best Seller",
-    aosDelay: 160,
-  },
 
-  {
-    id: 4,
-    title: "Loaded Fajita Wrap",
-    category: "wraps",
-    image: "/img/menu/4.jpg",
-    price: "$10.99",
-    rating: "4.5",
-    reviews: 74,
-    description:
-      "Grilled chicken, peppers, sour cream & guacamole in a warm tortilla",
-  },
 
-  {
-    id: 5,
-    title: "Nutella Lava Cake",
-    category: "desserts",
-    image: "/img/menu/5.jpg",
-    price: "$8.99",
-    oldPrice: "$11.99",
-    rating: "4.9",
-    reviews: 56,
-    description:
-      "Molten chocolate cake with Nutella center, vanilla ice cream & caramel",
-    badge: "New",
-    badgeType: "new",
-    aosDelay: 80,
-  },
-
-  {
-    id: 6,
-    title: "Truffle Mushroom Pasta",
-    category: "pasta",
-    image: "/img/menu/6.jpg",
-    price: "$16.99",
-    rating: "4.9",
-    reviews: 88,
-    description:
-      "Al dente tagliatelle, wild mushrooms, black truffle, parmesan & thyme",
-    badge: "Chef's Pick",
-    badgeType: "hot",
-    aosDelay: 160,
-  },
-];
 
 
 export const MenuSection = () => {
+  const [items, setItems] = useState<MenuItem[]>([])
+  const [loading, setLoading] = useState<boolean>(false);
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      setLoading(true)
+      try {
+        const response = await axiosInstance.get("/get/items");
+        if (response.status === 200 || response.status === 304) {
+          setItems(response.data.items);
+          setLoading(false)
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const categories = [
-    "all",
-    "burgers",
-    "pizza",
-    "chicken",
-    "wraps",
-    "desserts",
-    "pasta",
-  ];
+    fetchMenuItems();
+  }, []);
 
-
+  if (loading) {
+    return <div><p>Loading Items .......... </p> <SpinnerCircle size={128}/></div>
+  }
+  
   return (
     <section id="menu">
 
@@ -178,14 +95,14 @@ export const MenuSection = () => {
 
 
           {
-            menuItems.map((item)=>(
+            items?.map((item)=>(
 
               <div
                 key={item.id}
                 className={`col-sm-6 col-lg-4 mwrap`}
-                data-c={item.category}
+                data-c={item.categoryName}
                 data-aos="fade-up"
-                data-aos-delay={item.aosDelay}
+                data-aos-delay="120"
               >
 
 
@@ -198,15 +115,15 @@ export const MenuSection = () => {
                             <Image
                                 width={300}
                                 height={200}
-                      src={item.image}
-                      alt={item.title}
+                      src={item.itemImages[0].secure_url}
+                      alt={item.itemName}
                     />
 
 
                     {
                       item.badge && (
 
-                        <div className={`mbdg ${item.badgeType ?? ""}`}>
+                        <div className={`mbdg ${item.badge ?? ""}`}>
                           <i className="fas fa-star"></i>
                           {" "}
                           {item.badge}
@@ -232,21 +149,21 @@ export const MenuSection = () => {
 
                     <div className="mcat">
                       {
-                        item.category
+                        item.categoryName
                       }
                     </div>
 
 
                     <div className="mtit">
                       {
-                        item.title
+                        item.itemName
                       }
                     </div>
 
 
                     <div className="mdesc">
                       {
-                        item.description
+                        item.itemDescription
                       }
                     </div>
 
@@ -258,31 +175,7 @@ export const MenuSection = () => {
 
                         <div className="mprice">
 
-                          {item.price}
-
-                          {
-                            item.oldPrice && (
-                              <small>
-                                {item.oldPrice}
-                              </small>
-                            )
-                          }
-
-                        </div>
-
-
-                        <div className="mstars">
-
-                          <i className="fas fa-star"></i>
-
-                          <span 
-                            style={{
-                              color:"#bbb",
-                              fontSize:".7rem"
-                            }}
-                          >
-                            ({item.reviews})
-                          </span>
+                          {item.itemPrice}$
 
                         </div>
 

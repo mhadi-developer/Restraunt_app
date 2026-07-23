@@ -6,21 +6,37 @@ import GlobalBrandingBar from "./components/TopBar"
 import GlobalFooter from "./components/Footer"
 import { Toaster } from "react-hot-toast"
 import NotFound from "./pages/NotFound"
+import { useAdminAuth } from "./context/AdminAuthProvider"
+import { AddCategoryPage } from "./pages/AddCategoryPage"
+import AddMenuItemPage from "./pages/AddMenuItemPage"
+
 
 export default function App() {
-  return(
+  const { loginAdmin } = useAdminAuth();
+  return (
+      
     <div>
-      <GlobalBrandingBar
-        restaurantName="Maison"
+    
+        {
+          loginAdmin && loginAdmin?.role === 'admin' ?(
+             <GlobalBrandingBar
+        restaurantName="Sarab"
         serviceDate="Oct 24"
         serviceName="Dinner Service"
-        userName="Hadi"
+        userName={loginAdmin.adminName}
       />
+          ) : (
+              null
+          )
+        }
+     
       <BrowserRouter>
         <Routes>
+         
           <Route path='/' element={<HomePage />} />
           <Route path='/admin/login' element={<LoginPage />} />
-          
+          <Route path='/add/category' element={<AddCategoryPage />} />
+          <Route path='/add/item' element={<AddMenuItemPage/>}/>
           
 
           <Route path="/*" element={<NotFound/>}/>
@@ -55,7 +71,9 @@ export default function App() {
     },
   }}
 />
-      </BrowserRouter>
-    </div>
+        </BrowserRouter>
+        </div>
+
+    
   )
 }

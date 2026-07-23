@@ -1,0 +1,155 @@
+:root {
+  --color-cream: #fbf3e7;
+  --color-cream-card: #ffffff;
+  --color-espresso: #241510;
+  --color-espresso-light: #2f1e17;
+  --color-espresso-border: #4a3228;
+  --color-chili: #e85d30;
+  --color-chili-hover: #d34e23;
+  --color-chili-text: #c0431c;
+  --color-gold: #d4a24c;
+  --color-text-muted: #7a6858;
+  --color-text-faint: #b4a392;
+  --color-border: #e6d9c7;
+}
+
+.menu-form-container {
+  background-color: var(--color-cream);
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.menu-form-card {
+  background-color: var(--color-cream-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 20px rgba(36, 21, 16, 0.05);
+}
+
+.menu-form-card h2 {
+  color: var(--color-espresso);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: var(--color-espresso-light);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.form-control {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-cream-card);
+  color: var(--color-espresso);
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(212, 162, 76, 0.2);
+}
+
+.form-control::placeholder {
+  color: var(--color-text-faint);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.error-message {
+  color: var(--color-chili-text);
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+
+.submit-btn {
+  background-color: var(--color-chili);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: var(--color-chili-hover);
+}
+
+.submit-btn:disabled {
+  background-color: var(--color-text-faint);
+  cursor: not-allowed;
+}
+/* ... Keep all your existing CSS above ... */
+
+.file-upload-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.file-input {
+    padding: 0.5rem 0;
+    color: var(--color-espresso);
+    font-family: inherit;
+}
+
+/* Make the default file input button match your theme */
+.file-input::file-selector-button {
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-border);
+    color: var(--color-espresso);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.file-input::file-selector-button:hover {
+    background-color: var(--color-border);
+}
+
+.image-preview-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 0.5rem;
+}
+
+.image-preview-item {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--color-border);
+    box-shadow: 0 2px 8px rgba(36, 21, 16, 0.1);
+}

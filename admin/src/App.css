@@ -161,6 +161,32 @@ h3,
     color: var(--color-text-faint);
     font-size: 12px;
 }
+.footer-login-btn .login-btn{
+    background: linear-gradient(135deg, var(--color-gold), #c01e12);
+        color: #fff !important;
+        border-radius: 8px;
+        padding: 10px 20px !important;
+        font-size: 0.84rem !important;
+        font-weight: 600 !important;
+        box-shadow: 0 4px 15px rgba(232, 40, 26, 0.3);
+        margin-left: 6px;
+}
+
+.side-bar-logout-btn{
+    background: linear-gradient(135deg, var(--color-gold), #c01e12);
+       
+        border-radius: 8px;
+        padding: 5px 15px !important;
+        font-size: 0.84rem !important;
+        font-weight: 600 !important;
+        box-shadow: 0 4px 15px rgba(232, 40, 26, 0.3);
+        margin-left: 6px;
+}
+.side-bar-logout-btn button{
+    background-color: transparent;
+    color: #fff !important;
+    border: none;
+}
 
 /* --- 5. Main Content Area (Light Theme) --- */
 .main-content {

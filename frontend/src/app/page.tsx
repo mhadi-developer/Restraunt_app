@@ -15,19 +15,22 @@ import { BlogSection } from "@/components/Home/Blog";
 import { NewsletterSection } from "@/components/Home/NewsLetter";
 import { ContactSection } from "@/components/Home/Contact";
 import { useAuth } from "@/hooks/useAuth";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
+import SpinnerCircle from "@/components/Spinner";
 
 export default function HomePage() {
   const { getLoggedInUser } = useAuth();
   
   useEffect(() => {
     getLoggedInUser()
-  }, []);
+  }, [getLoggedInUser]);
   return (
     <>
       <Hero />
       <MarqueeSection />
+      <Suspense fallback={<SpinnerCircle size={128} />}>
       <CategorySection />
+      </Suspense>
       <AboutSection />
       <MenuSection />
       <SpecialOfferSection/>

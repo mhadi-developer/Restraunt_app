@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router";
+import { useAdminAuth } from "../context/AdminAuthProvider";
 
 const Sidebar: React.FC = () => {
+  const { loginAdmin, logoutAdmin } = useAdminAuth();
   return (
     <aside className="sidebar">
       <div className="brand">
@@ -29,20 +31,43 @@ const Sidebar: React.FC = () => {
           <span className="badge badge-gold">4</span>
         </Link>
 
-        <Link to="#" className="nav-item">
-          <span className="nav-text">Analytics</span>
+        <Link to="/add/category" className="nav-item">
+          <span className="nav-text">Add Category</span>
+        </Link>
+         <Link to="/add/item" className="nav-item">
+          <span className="nav-text">Add MenuItem</span>
         </Link>
       </nav>
 
+     
       <div className="sidebar-footer">
-        <div className="user-profile">
+         {
+        loginAdmin?.adminEmail && loginAdmin.role === 'admin' ? (
+         <div className="user-profile">
           <div className="avatar">H</div>
 
           <div className="user-info">
-            <span className="user-name">Hadi</span>
-            <span className="user-role">Administrator</span>
-          </div>
+                <span className="user-name">{loginAdmin.adminName }</span>
+                <span className="user-role">{ loginAdmin.role}</span>
+              </div>
+              <div className="side-bar-logout-btn">
+                <button  type="button" onClick={()=>logoutAdmin()}>
+                   Logout
+                </button>
+
+              </div>
         </div>
+        ) : (
+            <div className="footer-login-btn">
+              <Link to='/admin/login' className="btn login-btn">
+                Login
+              </Link>
+            </div>
+        )
+
+        }
+
+       
       </div>
     </aside>
   );

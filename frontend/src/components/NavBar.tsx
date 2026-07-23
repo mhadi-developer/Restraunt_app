@@ -101,6 +101,7 @@ export default function Navbar() {
                 <Link href="/menu" className="nav-link nav-cta">
                   Order Now
                 </Link>
+
                 
               </>
                 
