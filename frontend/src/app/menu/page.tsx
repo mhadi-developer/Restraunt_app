@@ -7,6 +7,7 @@ import { type MenuItem } from "@/types/imenuItems";
 import "@/assets/CSS/menu-page.css";
 import axiosInstance from "@/libs/axiosInstance";
 import { useSearchParams } from "next/navigation";
+import  Link  from "next/link";
 
 type SortKey = "featured" | "price-asc" | "price-desc" | "az";
 
@@ -231,6 +232,7 @@ export default function MenuPage() {
           {visibleItems.map((item, index) => {
             const image = item.itemImages?.[0]?.secure_url;
             return (
+              <Link href={`/menu/details/${item.id}`} key={item.id}>
               <article
                 key={item.id}
                 className="menu-card"
@@ -279,7 +281,8 @@ export default function MenuPage() {
 
                   <p className="menu-description">{item.itemDescription}</p>
                 </div>
-              </article>
+                </article>
+                </Link>
             );
           })}
         </div>

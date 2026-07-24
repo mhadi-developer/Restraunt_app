@@ -1,0 +1,105 @@
+/* --- Premium Cart Button Wrapper --- */
+.premium-cart-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    /* Slightly more space for better aesthetic */
+    border-radius: 0.75rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    overflow: visible;
+    /* Allows the badge and steam to float */
+}
+
+/* Very subtle scale pop on click for responsiveness */
+.premium-cart-btn:active {
+    transform: scale(0.96);
+}
+
+/* Hover background utilizing your light espresso tone */
+.premium-cart-btn:hover {
+    background-color: var(--color-espresso-light, #2f1e17);
+}
+
+/* --- Interactive Glow Effect --- */
+.premium-cart-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 0.75rem;
+    /* Gold gradient glow using your gold variable */
+    background: linear-gradient(to top right, rgba(212, 162, 76, 0), transparent);
+    filter: blur(8px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+/* Ignite glow on hover */
+.premium-cart-btn:hover .premium-cart-glow {
+    background: linear-gradient(to top right, rgba(181, 133, 50, 0.2), transparent);
+}
+
+/* --- The Icon Element --- */
+.premium-cart-icon {
+    /* Default color is your muted text variable */
+    color: var(--color-text-muted, #7a6858);
+    position: relative;
+    z-index: 10;
+    transition: all 0.3s ease;
+    /* No drop shadow by default */
+    filter: drop-shadow(0 0 8px rgba(212, 162, 76, 0));
+}
+
+/* --- Hover State Specifics --- */
+
+/* Main icon frame shifts to Gold */
+.premium-cart-btn:hover .premium-cart-icon {
+    color: var(--color-gold, #d4a24c);
+    /* Activate drop-shadow using Gold only on hover */
+    filter: drop-shadow(0 0 8px rgba(212, 162, 76, 0.5));
+}
+
+/* Reveal and lift the aromatic steam trails */
+.premium-cart-icon .icon-steam {
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+}
+
+.premium-cart-btn:hover .premium-cart-icon .icon-steam {
+    opacity: 1;
+    transform: translateY(-2px);
+    /* Slight lift */
+}
+
+/* --- Notification Badge --- */
+.premium-cart-badge {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    display: flex;
+    height: 1.35rem;
+    /* Increased size for visual impact */
+    width: 1.35rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    /* Badge Background is Gold */
+    background-color: var(--color-gold, #d4a24c);
+    /* Badge Text is deep Espresso for maximum contrast */
+    color: var(--color-chili-hover, #d34e23);
+    font-size: 11px;
+    /* Slightly larger text */
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(212, 162, 76, 0.4);
+    z-index: 20;
+    transition: transform 0.3s ease 0.2s;
+}
+
+/* Subtle badge pop on hover */
+.premium-cart-btn:hover .premium-cart-badge {
+    transform: scale(1.1);
+}
