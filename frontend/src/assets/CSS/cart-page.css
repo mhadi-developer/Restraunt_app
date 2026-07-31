@@ -1,0 +1,585 @@
+/* ==========================================================================
+   EMBERHOUSE — Cart Page
+   Signature element: the order sits inside a torn-edge kitchen "ticket" —
+   the same paper chit a line cook would clip to the rail — with dot-leader
+   rows borrowed from printed menu typography, used for every item/price
+   pairing on the page (cart list and ticket alike).
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+    /* --- brand palette (source of truth) --- */
+    --color-cream: #fbf3e7;
+    --color-cream-card: #ffffff;
+    --color-espresso: #241510;
+    --color-espresso-light: #2f1e17;
+    --color-espresso-border: #4a3228;
+    --color-chili: #e85d30;
+    --color-chili-hover: #d34e23;
+    --color-chili-text: #c0431c;
+    --color-gold: #d4a24c;
+
+    /* --- derived tones --- */
+    --color-espresso-a08: rgba(36, 21, 16, 0.08);
+    --color-espresso-a15: rgba(36, 21, 16, 0.15);
+    --color-espresso-a35: rgba(36, 21, 16, 0.35);
+    --color-gold-a15: rgba(212, 162, 76, 0.15);
+    --color-gold-a30: rgba(212, 162, 76, 0.3);
+    --color-chili-a12: rgba(232, 93, 48, 0.12);
+
+    /* --- type --- */
+    --font-display: "Fraunces", Georgia, serif;
+    --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+    /* --- shape / motion --- */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 22px;
+    --shadow-card: 0 24px 48px -28px var(--color-espresso-a35);
+    --transition-fast: 150ms ease;
+    --transition-med: 260ms ease;
+}
+
+.eh-cart-page * {
+    box-sizing: border-box;
+}
+
+.eh-cart-page {
+    background: var(--color-cream);
+    color: var(--color-espresso);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    padding: 48px 24px 96px;
+}
+
+/* ---------------------------------- header ---------------------------------- */
+
+.eh-cart-header {
+    max-width: 1120px;
+    margin: 0 auto 40px;
+}
+
+.eh-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-chili-text);
+    margin: 0 0 10px;
+}
+
+.eh-cart-heading-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--color-espresso-a15);
+    padding-bottom: 18px;
+}
+
+.eh-cart-heading-row h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(32px, 4vw, 44px);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.eh-item-count {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-espresso-border);
+    white-space: nowrap;
+}
+
+/* ---------------------------------- layout ---------------------------------- */
+
+.eh-cart-layout {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .eh-cart-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------------------------------- cart list ---------------------------------- */
+
+.eh-cart-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.eh-item-row {
+    display: flex;
+    gap: 18px;
+    padding: 26px 4px;
+    border-bottom: 1px solid var(--color-espresso-a08);
+}
+
+.eh-item-row:first-child {
+    padding-top: 6px;
+}
+
+.eh-item-thumb {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(155deg, var(--color-gold-a30), var(--color-chili-a12));
+    border: 1px solid var(--color-gold-a30);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--color-espresso);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eh-item-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.eh-item-title-line {
+    display: flex;
+    align-items: baseline;
+}
+
+.eh-item-title-line h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 19px;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.eh-leader {
+    flex: 1;
+    border-bottom: 1px dotted var(--color-espresso-border);
+    opacity: 0.55;
+    margin: 0 10px;
+    transform: translateY(-4px);
+    min-width: 24px;
+}
+
+.eh-item-price {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.eh-item-desc {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: var(--color-espresso-border);
+    line-height: 1.5;
+}
+
+.eh-item-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.eh-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-espresso-border);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.eh-stepper button {
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    color: var(--color-espresso);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.eh-stepper button:hover {
+    background: var(--color-chili);
+    color: #fff;
+}
+
+.eh-stepper span {
+    min-width: 28px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 14px;
+}
+
+.eh-remove-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-espresso-border);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.eh-remove-btn:hover {
+    color: var(--color-chili-text);
+}
+
+.eh-kitchen-note {
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+.eh-kitchen-note label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.eh-kitchen-note textarea {
+    width: 100%;
+    resize: vertical;
+    background: var(--color-cream-card);
+    border: 1px solid var(--color-espresso-a15);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-espresso);
+}
+
+.eh-kitchen-note textarea::placeholder {
+    color: var(--color-espresso-border);
+    opacity: 0.6;
+}
+
+/* ---------------------------------- ticket (signature element) ---------------------------------- */
+
+.eh-ticket {
+    position: relative;
+    background: var(--color-cream-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    margin-top: 10px;
+}
+
+@media (min-width: 901px) {
+    .eh-ticket {
+        position: sticky;
+        top: 32px;
+    }
+}
+
+/* torn / perforated paper edge, cut against the page background */
+.eh-ticket::before,
+.eh-ticket::after {
+    content: "";
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    height: 14px;
+    background: radial-gradient(circle at 10px 0, var(--color-cream) 9px, transparent 9.5px);
+    background-size: 20px 14px;
+    background-repeat: repeat-x;
+}
+
+.eh-ticket::before {
+    top: -1px;
+}
+
+.eh-ticket::after {
+    bottom: -1px;
+    transform: scaleY(-1);
+}
+
+.eh-ticket-inner {
+    padding: 34px 28px 28px;
+}
+
+.eh-ticket-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    color: var(--color-chili-text);
+}
+
+.eh-ticket-order-no {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-espresso-border);
+    margin: 6px 0 20px;
+}
+
+.eh-order-type {
+    display: flex;
+    background: var(--color-espresso-a08);
+    border-radius: 999px;
+    padding: 4px;
+    gap: 4px;
+}
+
+.eh-tab {
+    flex: 1;
+    border: none;
+    background: none;
+    padding: 8px 0;
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-espresso-border);
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.eh-tab.is-active {
+    background: var(--color-espresso);
+    color: var(--color-cream);
+}
+
+.eh-ticket-divider {
+    border-top: 1px dashed var(--color-espresso-a15);
+    margin: 20px 0;
+}
+
+.eh-ticket-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.eh-ticket-line {
+    display: flex;
+    align-items: baseline;
+    font-size: 13.5px;
+}
+
+.eh-ticket-line-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.eh-ticket-line-price {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.eh-ticket-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    padding: 6px 0;
+    color: var(--color-espresso-border);
+}
+
+.eh-ticket-row span:last-child {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+.eh-ticket-discount {
+    color: var(--color-gold);
+}
+
+.eh-promo {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0 4px;
+    border: 1px dashed var(--color-espresso-a15);
+    border-radius: var(--radius-md);
+    padding: 8px;
+}
+
+.eh-promo input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: none;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 4px 6px;
+    color: var(--color-espresso);
+}
+
+.eh-promo input::placeholder {
+    color: var(--color-espresso-border);
+    opacity: 0.6;
+}
+
+.eh-promo button {
+    border: none;
+    background: var(--color-espresso);
+    color: var(--color-cream);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    padding: 0 14px;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.eh-promo button:hover {
+    background: var(--color-espresso-light);
+}
+
+.eh-promo-msg {
+    font-size: 12.5px;
+    margin: 6px 2px 0;
+}
+
+.eh-promo-msg.is-success {
+    color: var(--color-gold);
+}
+
+.eh-promo-msg.is-error {
+    color: var(--color-chili-text);
+}
+
+.eh-ticket-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-top: 2px solid var(--color-espresso);
+    margin-top: 18px;
+    padding-top: 14px;
+}
+
+.eh-ticket-total-row span:first-child {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.eh-ticket-total-row span:last-child {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--color-chili-text);
+    font-variant-numeric: tabular-nums;
+}
+
+.eh-checkout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 20px;
+    border: none;
+    background: var(--color-chili);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 15px 0;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.eh-checkout-btn:hover {
+    background: var(--color-chili-hover);
+    transform: translateY(-1px);
+}
+
+.eh-checkout-btn span {
+    transition: transform var(--transition-fast);
+}
+
+.eh-checkout-btn:hover span {
+    transform: translateX(3px);
+}
+
+.eh-ticket-footnote {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--color-espresso-border);
+    margin: 14px 0 0;
+    line-height: 1.5;
+}
+
+/* ---------------------------------- empty state ---------------------------------- */
+
+.eh-cart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 70vh;
+    gap: 14px;
+}
+
+.eh-empty-mark {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--color-gold);
+}
+
+.eh-cart-empty h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 38px);
+    margin: 0;
+}
+
+.eh-cart-empty p {
+    max-width: 380px;
+    color: var(--color-espresso-border);
+    margin: 0 0 12px;
+    line-height: 1.6;
+}
+
+.eh-empty-cta {
+    width: auto;
+    padding: 14px 32px;
+    text-decoration: none;
+}
+
+/* ---------------------------------- accessibility ---------------------------------- */
+
+.eh-cart-page button:focus-visible,
+.eh-cart-page input:focus-visible,
+.eh-cart-page textarea:focus-visible,
+.eh-cart-page a:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .eh-cart-page * {
+        transition: none !important;
+    }
+}

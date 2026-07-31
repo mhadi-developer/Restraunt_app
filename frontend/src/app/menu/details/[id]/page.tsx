@@ -8,6 +8,7 @@ import axiosInstance from '@/libs/axiosInstance';
 import { toast } from 'sonner';
 import Image from 'next/image';
 import SpinnerCircle from '@/components/Spinner';
+import { useCart } from '@/context/CartProvider';
 
 // TypeScript Interface based on your provided schema
 interface ItemImage {
@@ -24,19 +25,24 @@ interface MenuItem {
   itemDescription: string;
   itemPrice: number;
   itemImages: ItemImage[];
+  itemQuantity?: number
 }
 
 // Default mock data injecting your exact provided sample
 
 export default function ItemDetails() {
+  const {cart,addToCart} = useCart()
     const [item, setItem] = useState<MenuItem>();
-    const [loading , setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  
     const param = useParams();
     const itemId = param.id;
     console.log(itemId);
     
+  
     
-
+  const itemExist = cart.find((i) => i.id == item?.id) ? true : false
+   
     useEffect(() => {
         if (!itemId) return;
 
@@ -100,10 +106,12 @@ export default function ItemDetails() {
         {/* Left Side: Image Slider */}
         <section className="slider-section">
           {item?.itemImages?.map((img, index) => (
-            <img
+            <Image
               key={img.id}
               src={img.secure_url}
               alt={`${item.itemName} - View ${index + 1}`}
+              width={100}
+              height={100}
               className={`slider-image ${index === currentIdx ? 'active' : ''}`}
             />
           ))}
@@ -119,9 +127,9 @@ export default function ItemDetails() {
               </button>
               
               <div className="slider-dots">
-                {item?.itemImages.map((_, idx) => (
+                {item?.itemImages.map((image, idx) => (
                   <button 
-                    key={idx}
+                    key={image.id}
                     className={`dot ${idx === currentIdx ? 'active' : ''}`}
                     onClick={() => setCurrentIdx(idx)}
                     aria-label={`Go to image ${idx + 1}`}
@@ -154,12 +162,27 @@ export default function ItemDetails() {
           </p>
 
           <div className="action-area">
-            <button className="add-to-cart-btn">
-              <ShoppingBag size={20} />
-              Add to Order
-            </button>
-          </div>
+            
+            
 
+            
+  <button
+    className="add-to-cart-btn"
+              type="button"
+              disabled={itemExist}
+              
+    onClick={() => {
+      if (item && item?.id) {
+        addToCart(item);
+      }
+    }}
+            >
+              {
+                itemExist ? "Already Added In Cart" : "   Add to Cart"
+              }
+ 
+  </button>
+</div>
         </section>
       </main>
     </div>

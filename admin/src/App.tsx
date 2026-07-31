@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound"
 import { useAdminAuth } from "./context/AdminAuthProvider"
 import { AddCategoryPage } from "./pages/AddCategoryPage"
 import AddMenuItemPage from "./pages/AddMenuItemPage"
+import Protected from "./pages/Protected"
 
 
 export default function App() {
@@ -35,8 +36,8 @@ export default function App() {
          
           <Route path='/' element={<HomePage />} />
           <Route path='/admin/login' element={<LoginPage />} />
-          <Route path='/add/category' element={<AddCategoryPage />} />
-          <Route path='/add/item' element={<AddMenuItemPage/>}/>
+          <Route path='/add/category' element={<Protected><AddCategoryPage /> </Protected>} />
+          <Route path='/add/item' element={<Protected> <AddMenuItemPage/> </Protected>}/>
           
 
           <Route path="/*" element={<NotFound/>}/>

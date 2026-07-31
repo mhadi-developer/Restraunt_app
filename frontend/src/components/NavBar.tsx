@@ -5,9 +5,11 @@ import UserAvatar from "./utils/UserAvatar";
 import { ShoppingBag } from 'lucide-react';
 import { useState } from "react";
 import "@/assets/CSS/cart-icon.css"
+import { redirect } from "next/navigation";
+import { useCart } from "@/context/CartProvider";
 
 export default function Navbar() {
-  const [cartItemCount, setCartItemCount] = useState<number>(0);
+  const { cart } = useCart();
   
   const { loginUser } = useAuth();
   return (
@@ -105,7 +107,7 @@ export default function Navbar() {
                 <Link href="/menu" className="nav-link nav-cta">
                   Order Now
                 </Link>
-               <button className="premium-cart-btn" aria-label="Open Order Cart">
+               <button onClick={()=>redirect('/cart')} className="premium-cart-btn" aria-label="Open Order Cart">
       {/* Background glow overlay */}
       <div className="premium-cart-glow"></div>
       
@@ -162,11 +164,11 @@ export default function Navbar() {
       </svg>
       
       {/* Dynamic Item Counter Badge */}
-      {cartItemCount > 0 && (
+       
         <span className="premium-cart-badge">
-          {cartItemCount}
+          {cart.length}
         </span>
-      )}
+      
     </button>
                 
               </>

@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { type MenuItem } from "@/types/imenuItems";
 import SpinnerCircle from "../Spinner";
+import { useCart } from "@/context/CartProvider";
+import { useAuth } from "@/hooks/useAuth";
+import { redirect } from "next/navigation";
 
 
 
@@ -12,18 +15,33 @@ import SpinnerCircle from "../Spinner";
 
 
 
+  function redirectUser() {
+    redirect('/login');
+  }
+  
 
 export const MenuSection = () => {
+  const { loginUser } = useAuth();
+  const { cart, addToCart } = useCart()
+  console.log(cart);
+  
   const [items, setItems] = useState<MenuItem[]>([])
   const [loading, setLoading] = useState<boolean>(false);
+  
   useEffect(() => {
     const fetchMenuItems = async () => {
       setLoading(true)
       try {
-        const response = await axiosInstance.get("/get/items");
+        const param = process.env.NEXT_PUBLIC_HOMEPAGE_MENU_ITEM_LIMIT;
+        const response = await axiosInstance.get("/get/items",{
+          params:param? {limit:param}:{}
+        });
         if (response.status === 200 || response.status === 304) {
-          setItems(response.data.items);
-          setLoading(false)
+          setItems(response?.data?.items);
+          if(items){
+            setLoading(false);
+          }
+         
         }
       } catch (error) {
         console.log(error);
@@ -38,7 +56,8 @@ export const MenuSection = () => {
   if (loading) {
     return <div><p>Loading Items .......... </p> <SpinnerCircle size={128}/></div>
   }
-  
+
+
   return (
     <section id="menu">
 
@@ -182,13 +201,30 @@ export const MenuSection = () => {
                       </div>
 
 
-
+                      {
+                        loginUser && loginUser.email ? (
+                        
                       <button 
                         className="madd"
                         title="View Details"
+                        type="button"
+                        onClick={()=>addToCart(item)}
                       >
                         <i className="fas fa-plus"></i>
                       </button>
+                        ) : (
+                            
+                      <button 
+                        className="madd"
+                        title="View Details"
+                        type="button"
+                        onClick={redirectUser}
+                      >
+                        <i className="fas fa-plus"></i>
+                      </button>
+                        )
+                        
+}
 
 
                     </div>

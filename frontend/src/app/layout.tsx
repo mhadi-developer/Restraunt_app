@@ -9,6 +9,7 @@ import AosProvider from "@/components/utils/AosProvider";
 import { Fraunces, Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/Provider/AuthProvider";
+import { CartProvider } from "@/context/CartProvider";
 
 const fontDisplay = Fraunces({ subsets: ["latin"], variable: "--font-display" });
 const fontBody = Inter({ subsets: ["latin"], variable: "--font-body" });
@@ -41,6 +42,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>
+          <CartProvider>
         <AosProvider/>
         <TopBar />
         <Navbar />
@@ -51,7 +53,8 @@ export default function RootLayout({
           richColors
         
           />
-          <Footer />
+            <Footer />
+            </CartProvider>
         </AuthProvider>
       </body>
     </html>
