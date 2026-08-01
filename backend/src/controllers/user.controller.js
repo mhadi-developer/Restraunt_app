@@ -1,6 +1,7 @@
 import { generateToken } from "../../utils/generateJWT.js";
 import prisma from "../../utils/prismaClient.js";
 import argon2 from "argon2";
+import { redis } from "../config/redisClient.js";
 
 export const registerUser = async (req, res) => {
   try {
@@ -128,3 +129,55 @@ export const logoutUser = async (req, res) => {
     })
   }
 }
+
+// ********************************************************************
+
+export const saveOrderSummary = async(req , res)=>{
+  try {
+    const {orderSummary} = req.body;
+
+    console.log({ orderSummary });
+    if(orderSummary){
+      const cacheKey = 'cacheOrder'
+      await redis.set(cacheKey, JSON.stringify(orderSummary), {
+        EX: 600,
+      });
+    }
+
+    return res.status(201).json({
+      message: 'Order cached succesfully valid for 10Mints'
+    })
+    
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || "server error"
+    })
+  }
+}
+
+//********************************************************************** */
+export const getOrderSummary = async (req, res) => {
+  try {
+    const cacheKey = 'cacheOrder';
+
+    const cachedOrderSummary = await redis.get(cacheKey);
+   if(!cachedOrderSummary){
+    return res.status(404).json({
+      message: "order summary not found"
+    });
+    }
+    return res.status(200).json({
+      message: "order summary fetched successfully",
+      orderSummary: JSON.parse(cachedOrderSummary)
+    })
+
+    
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: error?.message || "server error"
+    })
+    
+  }
+}
+// *****************************************************************
