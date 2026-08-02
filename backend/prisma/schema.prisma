@@ -20,14 +20,18 @@ model Admin {
   updatedAt DateTime @updatedAt
 }
 
+
 model User {
-  id        String    @id @default(uuid())
-  firstName String 
-  lastName  String
-  email String @unique
-  password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String          @id @default(uuid())
+  firstName   String
+  lastName    String
+  email       String          @unique
+  password    String
+  phoneNumber String?         // added — required by checkout payload, nullable for existing users
+  address     String?         // added — optional, not required for dine-in orders
+  orders      CheckoutOrder[] // relation: one user → many orders
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 }
 
 model Category{
@@ -45,17 +49,16 @@ model  CategoryImage{
   category  Category?
   
 }
-
-model Item{
-  id Int @id @default(autoincrement())
-  itemName String
-  category Category @relation(fields: [categoryName] , references: [categoryName])
-  categoryName String
+model Item {
+  id              Int         @id @default(autoincrement())
+  itemName        String
+  category        Category    @relation(fields: [categoryName], references: [categoryName])
+  categoryName    String
   itemDescription String
-  itemPrice Float
-  itemImages ItemImage[] 
-  badge String  @default("none") 
-  
+  itemPrice       Float
+  itemImages      ItemImage[]
+  badge           String      @default("none")
+  orderItems      OrderItem[] // added — back-relation for OrderItem.item
 }
 
 model ItemImage{
@@ -64,4 +67,44 @@ model ItemImage{
   public_id  String
  item       Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId     Int
+}
+
+
+
+model CheckoutOrder {
+  id             Int         @id @default(autoincrement())
+
+  userId         String      // foreign key → matches User.id type (String/uuid)
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  orderType      String
+  orderStatus    String?      @default("pending")
+  kitchenNote    String?
+  deliveryFee    Float       @default(0)
+  discountAmount Float       @default(0)
+  discountRate   Float       @default(0)
+  subtotal       Float
+  tax            Float
+  total          Float
+
+  items          OrderItem[]
+
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+
+model OrderItem {
+  id        Int           @id @default(autoincrement())
+
+  item      Item          @relation(fields: [itemId], references: [id])
+  itemId    Int           // matches Item.id type (Int)
+
+  name      String        // snapshot at time of order (price/name could change later on Item)
+  price     Float
+  quantity  Int
+  lineTotal Float
+
+  order     CheckoutOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   Int
 }

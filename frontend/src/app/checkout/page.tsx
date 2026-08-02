@@ -2,17 +2,19 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import {useRouter} from "next/navigation"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import "@/assets/CSS/checkout-page.css";
 import { useAuth } from "@/hooks/useAuth";
 import SpinnerCircle from "@/components/Spinner";
 import axiosInstance from "@/libs/axiosInstance";
+import { toast } from "sonner";
 
-type OrderType = "dine-in" | "pickup" | "delivery";
+type OrderType = "DINE_IN" | "DELIVERY" | "TAKEAWAY";
 
 interface OrderSummaryItem {
   id: string;
@@ -35,12 +37,12 @@ interface OrderSummary {
 }
 
 const ORDER_TYPE_LABELS: Record<OrderType, string> = {
-  "dine-in": "Dine In",
-  pickup: "Pickup",
-  delivery: "Delivery",
+  "DINE_IN": "Dine In",
+  "TAKEAWAY": "Takeaway",
+  "DELIVERY": "Delivery",
 };
 
-const ORDER_SUMMARY_KEY = "eh-order-summary";
+// const ORDER_SUMMARY_KEY = "eh-order-summary";
 
 // ---- Zod schema ----
 // Address is conditionally required only when orderType === "delivery".
@@ -56,10 +58,10 @@ const checkoutSchema = z
       .max(20, "Phone number looks too long")
       .regex(/^[0-9+\-\s()]+$/, "Only digits, spaces, +, -, ( ) are allowed"),
     address: z.string().trim().max(200).optional(),
-    orderType: z.enum(["dine-in", "pickup", "delivery"]),
+    orderType: z.enum(["DINE_IN", "TAKEAWAY", "DELIVERY"]),
   })
   .superRefine((data, ctx) => {
-    if (data.orderType === "delivery") {
+    if (data.orderType === "DELIVERY") {
       if (!data.address || data.address.trim().length < 5) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -72,9 +74,11 @@ const checkoutSchema = z
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
+
 export default function CheckoutPage () {
+  const navigate = useRouter();
   const { loginUser, loading } = useAuth();
-  const router = useRouter();
+  
 
   const [orderSummary, setOrderSummary] = useState<OrderSummary | null>(null);
   const [summaryLoaded, setSummaryLoaded] = useState(false);
@@ -103,8 +107,8 @@ export default function CheckoutPage () {
   
    
 
-  const orderType: OrderType = orderSummary?.orderType ?? "dine-in";
-  const isDelivery = orderType === "delivery";
+  const orderType: OrderType = orderSummary?.orderType ?? "DINE_IN";
+  const isDelivery = orderType === "DELIVERY";
 
   const {
     register,
@@ -119,7 +123,7 @@ export default function CheckoutPage () {
       email: loginUser?.email || "",
       phoneNumber: "",
       address: "",
-      orderType: "dine-in",
+      orderType: "DINE_IN",
     },
   });
 
@@ -159,6 +163,15 @@ export default function CheckoutPage () {
       };
 
       // Wire this up to your actual checkout/payment endpoint via axiosInstance.
+      const response = await axiosInstance.post("/checkout/order", { payload });
+
+      if (response.status === 201 || response.status === 200) {
+        toast.success("order saved redirecting to payment page .....");
+        const url  = response.data.stripeUrl;
+        navigate.push(`${url}`);
+      
+      }
+
       console.log("Checkout payload:", payload);
 
       // On success, your backend should return the generated order number
@@ -181,7 +194,7 @@ export default function CheckoutPage () {
   }
 
   if (!loginUser?.email) {
-    return router.push("/login");
+    return redirect('/login');
    
   }
 

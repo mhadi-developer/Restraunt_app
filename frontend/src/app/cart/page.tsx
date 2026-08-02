@@ -12,12 +12,12 @@ import { useAuth } from "@/hooks/useAuth";
 import SpinnerCircle from "@/components/Spinner";
 import axiosInstance from "@/libs/axiosInstance";
 
-type OrderType = "dine-in" | "pickup" | "delivery";
+type OrderType = "DINE_IN" | "TAKEAWAY" | "DELIVERY";
 
 const ORDER_TYPE_LABELS: Record<OrderType, string> = {
-  "dine-in": "Dine In",
-  pickup: "Pickup",
-  delivery: "Delivery",
+  "DINE_IN": "Dine In",
+  "TAKEAWAY": "Takeaway",
+  "DELIVERY": "Delivery",
 };
 
 const TAX_RATE = 0.08;
@@ -55,7 +55,7 @@ export default function CartPage() {
 
   const { cart, incrementItem, decrementItem, removeFromCart, clearCart } = useCart();
 
-  const [orderType, setOrderType] = useState<OrderType>("dine-in");
+  const [orderType, setOrderType] = useState<OrderType>("DINE_IN");
   const [kitchenNote, setKitchenNote] = useState("");
   const [promoCode, setPromoCode] = useState("");
   const [promoStatus, setPromoStatus] = useState<"idle" | "applied" | "invalid">("idle");
@@ -84,7 +84,7 @@ export default function CartPage() {
   };
 
   const tax = subtotal * TAX_RATE;
-  const deliveryFee = orderType === "delivery" ? DELIVERY_FEE : 0;
+  const deliveryFee = orderType === "DELIVERY" ? DELIVERY_FEE : 0;
   const discountAmount = subtotal * discountRate;
   const total = subtotal + tax + deliveryFee - discountAmount;
 
@@ -273,7 +273,7 @@ export default function CartPage() {
                 <span>Tax</span>
                 <span>${tax.toFixed(2)}</span>
               </div>
-              {orderType === "delivery" && (
+              {orderType === "DELIVERY" && (
                 <div className="eh-ticket-row">
                   <span>Delivery</span>
                   <span>${deliveryFee.toFixed(2)}</span>

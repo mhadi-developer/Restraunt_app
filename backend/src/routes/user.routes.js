@@ -6,6 +6,7 @@ import {
   getLoginUser,
   saveOrderSummary,
   getOrderSummary,
+  checkoutOrderSaved,
 } from "../controllers/user.controller.js";
 import { isAuthenticated } from "../middleware/isAuthenticated.user.js";
 import {
@@ -24,7 +25,8 @@ router.route("/get/categories").get(getCategories);
 router.route("/get/items").get(getMenuItems);
 router.route("/get/item/:id").get(getMenuItemById);
 router.route("/cart/order/summary").post(isAuthenticated, saveOrderSummary);
-router.route("/get/order/summary").get(isAuthenticated, getOrderSummary );
+router.route("/get/order/summary").get(isAuthenticated, getOrderSummary);
+router.route("/checkout/order").post(isAuthenticated, checkoutOrderSaved);
 
 
 
