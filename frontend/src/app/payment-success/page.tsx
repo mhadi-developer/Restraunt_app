@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { redirect, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import '@/assets/CSS/payment-success.css';
+import axiosInstance from '@/libs/axiosInstance';
 
 interface OrderItem {
   id: number;
@@ -13,6 +14,7 @@ interface OrderItem {
 }
 
 interface OrderSummary {
+  id: number;
   orderNumber: string;
   orderType: 'DINE_IN' | 'DELIVERY' | 'TAKEAWAY';
   items: OrderItem[];
@@ -28,28 +30,58 @@ const PaymentSuccessPage: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
+  const orderId = searchParams.get('order_id');
+
 
   const [state, setState] = useState<FetchState>('loading');
   const [order, setOrder] = useState<OrderSummary | null>(null);
 
-  if(!sessionId){
-      return redirect('/');
-  }
-    const verifyPayment = async () => {
+  // Bail out early if the param is missing — no point calling the API.
+  useEffect(() => {
+    if (!sessionId || !orderId) {
+      router.replace('/');
+    }
+  }, [sessionId, router]);
+
+  // Runs once per sessionId — not on every render.
+  useEffect(() => {
+    if (!sessionId) return;
+
+    let cancelled = false;
+
+    const getOrder = async () => {
       try {
-        const res = await fetch(`/api/payment/verify?session_id=${sessionId}`);
-        if (!res.ok) throw new Error('Verification failed');
-        const data: OrderSummary = await res.json();
-        setOrder(data);
-        setState('success');
+        const response = await axiosInstance.get(`/get/order/${orderId}`);
+
+        if(response.status === 200 || response.status === 201) {  
+
+          setOrder(response.data.order);
+           setState('success');
+        }
+
+    // sends the auth cookie so the backend knows who's asking
+  
+      
+       
       } catch (err) {
         console.error('Payment verification error:', err);
-        setState('error');
+        if (!cancelled) setState('error');
       }
     };
 
-    verifyPayment();
+    getOrder();
+
+    // Prevents a state update on an unmounted component if the user
+    // navigates away while the request is still in flight.
+    return () => {
+      cancelled = true;
+    };
   }, [sessionId]);
+
+  if (!sessionId) {
+    // Redirect is in-flight via the effect above; render nothing meaningful.
+    return null;
+  }
 
   if (state === 'loading') {
     return (
@@ -59,7 +91,7 @@ const PaymentSuccessPage: React.FC = () => {
     );
   }
 
-  if (state === 'error' || !order) {
+  if (!order) {
     return (
       <div className="ps-page">
         <p className="ps-error">
@@ -118,7 +150,7 @@ const PaymentSuccessPage: React.FC = () => {
 
           <div className="ps-order-meta">
             <span>
-              Order <strong>#{order.orderNumber}</strong>
+              Order <strong>#{order.id}</strong>
             </span>
             <span>{orderTypeLabel[order.orderType]}</span>
           </div>
@@ -144,7 +176,7 @@ const PaymentSuccessPage: React.FC = () => {
             <button
               type="button"
               className="ps-btn ps-btn-primary"
-              onClick={() => router.push(`/orders/${order.orderNumber}`)}
+              onClick={() => router.push(`/order/${order.id}`)}
             >
               Track your order
             </button>
