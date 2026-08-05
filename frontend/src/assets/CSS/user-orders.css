@@ -1,0 +1,163 @@
+/* =========================================
+   Theme Variables 
+   ========================================= */
+:root {
+    --bg-gradient: linear-gradient(135deg, rgb(26, 0, 0) 0%, rgb(45, 0, 0) 100%);
+    --espresso: #241510;
+    --espresso-light: #2f1e17;
+    --espresso-border: #4a3228;
+    --chili: #e85d30;
+
+    --text-main: #f5f5f5;
+    --text-muted: #a89f9c;
+}
+
+/* =========================================
+   Page Layout 
+   ========================================= */
+.orders-page-container {
+    min-height: 100vh;
+    background: var(--bg-gradient);
+    padding: 2rem 1rem;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+.orders-content {
+    width: 100%;
+    max-width: 800px;
+}
+
+.orders-title {
+    color: var(--text-main);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* =========================================
+   Order Card Layout 
+   ========================================= */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.order-card {
+    background-color: var(--espresso);
+    border: 1px solid var(--espresso-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.order-card:hover {
+    border-color: var(--chili);
+    transform: translateY(-2px);
+}
+
+/* --- Header Section --- */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--espresso-border);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.order-id {
+    display: block;
+    color: var(--text-main);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.order-date {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.order-status {
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Status variants */
+.order-status.pending {
+    background-color: rgba(232, 93, 48, 0.15);
+    /* Translucent chili */
+    color: var(--chili);
+    border: 1px solid var(--chili);
+}
+
+/* --- Body Section --- */
+.order-body {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.order-detail-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.detail-label {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    color: var(--text-main);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.highlight-total {
+    color: var(--chili);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* --- Footer Section (Button) --- */
+.order-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-view-details {
+    background-color: var(--espresso-light);
+    color: var(--text-main);
+    border: 1px solid var(--espresso-border);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-view-details:hover {
+    background-color: var(--chili);
+    border-color: var(--chili);
+    color: #ffffff;
+}
+
+.btn-view-details:active {
+    transform: scale(0.97);
+}

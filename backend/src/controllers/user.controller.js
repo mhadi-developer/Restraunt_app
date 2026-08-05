@@ -119,12 +119,14 @@ export const getLoginUser = async (req, res) => {
 
 export const logoutUser = async (req, res) => {
   try {
-    return res.clearCookies("token", {
+    return res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-    });
+    }).status(200).json({
+      message: "user logout successfully",
+    })
   } catch (err) {
     res.status(500).json({
       message: 'unable to logout user' && err?.message
@@ -184,3 +186,54 @@ export const getOrderSummary = async (req, res) => {
 }
 // *****************************************************************
 
+export const getAllOrders = async(req , res)=>{
+  try {
+    const { userId } = req.loginUser;
+    const cacheKey = `orders:${userId}`;
+    const cachedOrders = await redis.get(cacheKey);
+    if (cachedOrders) {
+      return res.status(200).json({
+        message:"orders fetched successfully",
+        orders: JSON.parse(cachedOrders),
+        source: 'cache',
+        success: true
+      })
+    }
+    
+
+    const fetcheAllOrders = await prisma.checkoutOrder.findMany({
+      include: {
+        items: true,
+        user: {
+          omit: {
+            password: true
+          }
+        }
+      }
+    });
+
+
+    await redis.set(cacheKey, 
+      JSON.stringify(fetcheAllOrders),{
+        EX:300
+      }
+    )
+
+    console.log({ fetcheAllOrders });
+    
+
+    return res.status(200).json({
+      message: "orders fetched succesfully",
+      source: 'database',
+      orders: fetcheAllOrders,
+      success: true
+    })
+  } catch (e) {
+    console.log(e);
+
+    return res.status(500).json({
+      message: e.message || "Server Error"
+    })
+    
+  }
+}

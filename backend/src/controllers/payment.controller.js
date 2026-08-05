@@ -1,7 +1,9 @@
 import Stripe from 'stripe';
 import prisma from "../../utils/prismaClient.js";// adjust to however you export your Prisma client
-import { redis } from "../config/redisClient.js"; // adjust to however you export your Redis client
-
+import { redis } from "../config/redisClient.js";// adjust to however you export your Redis client
+import {sendEmail} from "../services/email.service.js";
+import { orderStatusEmailTemplate } from "../template/email.template.js";
+import {sendOrderStatusWhatsApp} from "../services/whatsapp.message.send.service.js"
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // ─────────────────────────────────────────────
@@ -22,7 +24,7 @@ export const checkoutOrderSaved = async (req, res) => {
     // if either fails, both roll back.
     const [, newOrder] = await prisma.$transaction([
       prisma.user.update({
-        where: { id: req.loginUser.userId , email : customer?.email },
+        where: { id: req.loginUser.userId, email: customer?.email },
         data: { phoneNumber: customer.phoneNumber },
       }),
       prisma.checkoutOrder.create({
@@ -36,7 +38,7 @@ export const checkoutOrderSaved = async (req, res) => {
           tax: order.tax,
           total: order.total,
           user: {
-            connect: { id: req.loginUser.userId , email: customer.email }, // trusted server-side id only — not client-supplied email
+            connect: { id: req.loginUser.userId, email: customer.email }, // trusted server-side id only
           },
           items: {
             create: order.items.map((item) => ({
@@ -57,7 +59,6 @@ export const checkoutOrderSaved = async (req, res) => {
               lastName: true,
               email: true,
               phoneNumber: true,
-              // password intentionally excluded — never return this to the client
             },
           },
         },
@@ -99,20 +100,70 @@ export const checkoutOrderSaved = async (req, res) => {
       mode: "payment",
       customer_email: customer.email,
       metadata: {
-        orderId: newOrder.id.toString(), // server-trusted source of truth — never read from the client
+        orderId: newOrder.id.toString(),
       },
-      // NOTE: orderId is intentionally NOT in this URL anymore.
-      // It's looked up from Stripe metadata during verification instead.
       success_url: `${process.env.CLIENT_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}&order_id=${newOrder.id}`,
       cancel_url: `${process.env.CLIENT_URL}/payment-cancel?canceled=true`,
     });
+
+    // -------------------------------------------------------------------
+    // Sequential Email & WhatsApp Trigger Sequence
+    // -------------------------------------------------------------------
+    if (newOrder.user.email) {
+      const customerFullName =
+        `${newOrder.user.firstName || ""} ${newOrder.user.lastName || ""}`.trim();
+      const formattedStatus = newOrder.orderStatus
+        ? newOrder.orderStatus.toUpperCase()
+        : "PENDING";
+
+      const html = orderStatusEmailTemplate({
+        customerName: customerFullName,
+        customerEmail: newOrder.user.email,
+        orderId: newOrder.id,
+        orderStatus: formattedStatus,
+        orderType: newOrder.orderType,
+      });
+
+      // Execute sequential notifications (Email first, then WhatsApp)
+      (async () => {
+        try {
+          // 1. Send Email Notification
+          await sendEmail({
+            to: newOrder.user.email,
+            subject: `Order #${newOrder.id} - ${formattedStatus}`,
+            html: html,
+          });
+          console.log(
+            `Email sent to ${newOrder.user.email} for Order #${newOrder.id}`,
+          );
+
+          // 2. Send WhatsApp Notification right after email completes
+          if (customer.phoneNumber || newOrder.user.phoneNumber) {
+            await sendOrderStatusWhatsApp(
+              {
+                customerName: customerFullName,
+                orderId: newOrder.id,
+                orderStatus: formattedStatus,
+                orderType: newOrder.orderType,
+                customerPhone: customer.phoneNumber || newOrder.user.phoneNumber,
+              },
+            );
+            console.log(
+              `WhatsApp notification dispatched for Order #${newOrder.id}`,
+            );
+          }
+        } catch (notifyError) {
+          console.error("Failed executing order notifications:", notifyError);
+        }
+      })();
+    }
 
     res.status(201).json({
       order: newOrder,
       stripeUrl: session.url,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Checkout Error:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -213,13 +264,12 @@ export const getOrder = async (req , res) => {
       },
       include: {
         items: true,
-        user:true
-      },
-      omit: {
         user:{
-          password: true
+          omit:{
+            password:true
+          }
         }
-      }
+      },
     })
 
     if (!foundOrderById) {

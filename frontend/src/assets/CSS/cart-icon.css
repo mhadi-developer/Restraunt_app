@@ -103,3 +103,140 @@
 .premium-cart-btn:hover .premium-cart-badge {
     transform: scale(1.1);
 }
+/* Base */
+.blogo { display: flex; align-items: center; gap: 0.5rem; }
+.mobile-quick-actions { gap: 0.5rem; }
+
+/* Phones, <576px */
+@media (max-width: 575.98px) {
+  #nav .container { padding-left: 0.75rem; padding-right: 0.75rem; }
+  .bname { font-size: 1rem; }
+  .bsub { display: none; }               /* tagline hidden to save width */
+  .bico { width: 32px; height: 32px; font-size: 0.9rem; }
+  .premium-cart-btn { width: 40px; height: 40px; }
+  .premium-cart-icon { width: 26px; height: 26px; }
+  .premium-cart-badge { font-size: 0.65rem; min-width: 16px; height: 16px; }
+  .nav-cta { font-size: 0.85rem; padding: 0.4rem 0.75rem; }
+}
+
+/* Large phones, 576px–767.98px */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .bname { font-size: 1.1rem; }
+  .bsub { font-size: 0.65rem; }
+  .premium-cart-btn { width: 42px; height: 42px; }
+}
+
+/* Tablets, 768px–991.98px (still collapsed — lg breakpoint is 992px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .navbar-nav { text-align: center; }
+  .nav-item { margin: 0.25rem 0; }
+  .desktop-actions { justify-content: center; margin-top: 0.5rem; }
+}
+
+/* Large desktops, ≥1200px */
+@media (min-width: 1200px) {
+  .bname { font-size: 1.5rem; }
+  .bsub { font-size: 0.8rem; }
+}
+
+/* Comfortable tap targets on touch devices, any screen size */
+@media (hover: none) and (pointer: coarse) {
+  .nav-link, .premium-cart-btn, .navbar-toggler {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+.avatar-dropdown-wrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+.avatar-trigger-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.avatar-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 200px;
+    background: var(--surface-dark, #2a1a1a);
+        /* espresso tone */
+        border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0;
+    z-index: 1050;
+    animation: dropdown-fade-in 0.15s ease-out;
+}
+
+@keyframes dropdown-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* On small screens, keep it from overflowing off the right edge of the viewport */
+@media (max-width: 400px) {
+    .avatar-dropdown-menu {
+        right: -10px;
+        min-width: 180px;
+    }
+}
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+    padding: 0.6rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary, #f5efe6);
+    background: transparent;
+    border: none;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus-visible {
+    background: var(--color-wine-light, rgba(212, 162, 76, 0.12));
+    color: var(--color-gold, #d4a24c);
+    outline: none;
+}
+
+.dropdown-item-icon {
+    width: 16px;
+    text-align: center;
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+.dropdown-divider {
+    height: 1px;
+    margin: 0.4rem 0;
+    background: var(--border-subtle, rgba(255, 255, 255, 0.08));
+}
+
+.dropdown-item-danger {
+    color: var(--color-danger, #d4574c);
+}
+
+.dropdown-item-danger:hover,
+.dropdown-item-danger:focus-visible {
+    background: rgba(212, 87, 76, 0.12);
+    color: var(--color-danger, #d4574c);
+}

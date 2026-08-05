@@ -7,7 +7,9 @@ const app = express();
 import userRoutes from "./src/routes/user.routes.js";
 import adminRoutes from "./src/routes/admin.routes.js";
 import paymentRoutes from "./src/routes/payment.routes.js";
+import whatsappRoutes from "./src/routes/whatsapp.webhooks.routes.js";
 import { connectRedis } from "./src/config/redisClient.js";
+import "./src/config/whatsappClient.js"
 const port = process.env.PORT || 7000;
 
 const corsOption = {
@@ -20,6 +22,7 @@ app.use(express.json());
 app.use("/api", userRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", paymentRoutes);
+app.use("/api", whatsappRoutes);
 const startServer = async(port) => {
   await connectRedis();
   app.listen(port, () => {
