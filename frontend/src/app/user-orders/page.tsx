@@ -164,6 +164,7 @@ export const UserOrdersPage: React.FC = () => {
               {/* Bottom Row: Actions */}
               <div className="order-footer">
                 <button 
+                  type="button"
                   className="btn-view-details"
                   onClick={() => handleViewDetails(order.id)}
                 >
@@ -179,6 +180,7 @@ export const UserOrdersPage: React.FC = () => {
         {totalPages > 1 && (
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2rem', gap: '1rem' }}>
             <button 
+            type="button"
               onClick={handlePrevPage} 
               disabled={currentPage === 1}
               style={{
@@ -197,6 +199,7 @@ export const UserOrdersPage: React.FC = () => {
               Page {currentPage} of {totalPages}
             </span>
             <button 
+              type="button"
               onClick={handleNextPage} 
               disabled={currentPage === totalPages}
               style={{

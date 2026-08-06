@@ -218,8 +218,6 @@ export const getAllOrders = async(req , res)=>{
         EX:300
       }
     )
-
-    console.log({ fetcheAllOrders });
     
 
     return res.status(200).json({
@@ -233,6 +231,58 @@ export const getAllOrders = async(req , res)=>{
 
     return res.status(500).json({
       message: e.message || "Server Error"
+    })
+    
+  }
+}
+
+// **************************************************
+
+export const getUserDetails = async (req, res) => {
+  try {
+    const { userId } = req.loginUser;
+    const cacheKey = `user:${userId}:details`
+    const cacheUser = await redis.get(cacheKey);
+
+    if (cacheUser) {
+      return res.status(200).json({
+        message: "user details fetched",
+        user: JSON.parse(cacheUser),
+        source: 'cache'
+      });
+    };
+    const dbUser = await prisma.user.findUnique({
+      where: {
+        id: userId
+      },
+      omit: {
+        password: true
+      }
+    });
+
+
+    if (!dbUser) {
+      return res.status(404).json({
+        message: 'User deatils not found'
+      })
+    }
+
+    await redis.set(cacheKey,
+      JSON.stringify(dbUser),
+      {
+        EX: 600
+      }
+    );
+
+    res.status(200).json({
+      message: 'User fetched', 
+      source: 'Database',
+      user:dbUser
+    })
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      message: e.error || "Server error"
     })
     
   }

@@ -1,0 +1,486 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,560;9..144,650&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+/* ------------------------------------------------------------------ */
+/* Tokens                                                              */
+/* ------------------------------------------------------------------ */
+:root {
+    /* Given brand tokens */
+    --color-espresso: #241510;
+    --color-espresso-light: #2f1e17;
+    --color-espresso-border: #4a3228;
+    --color-chili: #e85d30;
+
+    /* Derived / supporting tokens */
+    --color-chili-hover: #f3733f;
+    --color-chili-press: #c94a22;
+    --color-ember-glow: rgba(232, 93, 48, 0.35);
+    --color-gold: #c9a24d;
+    --color-gold-dim: rgba(201, 162, 77, 0.35);
+    --color-parchment: #f4ece2;
+    --color-parchment-dim: #c3b2a2;
+    --color-success: #7ab08a;
+    --color-success-bg: rgba(122, 176, 138, 0.12);
+    --color-error: #e5695c;
+    --color-error-bg: rgba(229, 105, 92, 0.12);
+
+    --font-display: "Fraunces", "Georgia", serif;
+    --font-body: "Manrope", -apple-system, sans-serif;
+    --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+
+    --radius-card: 20px;
+    --radius-field: 10px;
+    --shadow-card: 0 30px 70px -25px rgba(0, 0, 0, 0.65);
+}
+
+/* ------------------------------------------------------------------ */
+/* Page shell                                                          */
+/* ------------------------------------------------------------------ */
+.eh-profile {
+    min-height: 100vh;
+    background: linear-gradient(135deg, rgb(26, 0, 0) 0%, rgb(45, 0, 0) 100%);
+    font-family: var(--font-body);
+    color: var(--color-parchment);
+    padding: 72px 24px 96px;
+    box-sizing: border-box;
+}
+
+.eh-profile *,
+.eh-profile *::before,
+.eh-profile *::after {
+    box-sizing: border-box;
+}
+
+.eh-profile__container {
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.eh-profile__loading,
+.eh-profile__error-state {
+    max-width: 480px;
+    margin: 120px auto 0;
+    text-align: center;
+    color: var(--color-parchment-dim);
+    font-family: var(--font-body);
+    font-size: 15px;
+}
+
+.eh-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero: membership card                                               */
+/* ------------------------------------------------------------------ */
+.eh-profile-card {
+    position: relative;
+    background: var(--color-espresso);
+    border: 1px solid var(--color-espresso-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 40px 40px 32px;
+    overflow: hidden;
+}
+
+.eh-profile-card__glow {
+    position: absolute;
+    top: -140px;
+    right: -100px;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, var(--color-ember-glow) 0%, transparent 70%);
+    pointer-events: none;
+    animation: eh-ember-pulse 6s ease-in-out infinite;
+}
+
+@keyframes eh-ember-pulse {
+
+    0%,
+    100% {
+        opacity: 0.55;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.9;
+        transform: scale(1.08);
+    }
+}
+
+.eh-profile-card__top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.eh-profile-card__avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.eh-profile-card__avatar {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    border: 2px solid var(--color-chili);
+    background: var(--color-espresso-light);
+    color: var(--color-parchment);
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 560;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    box-shadow: 0 0 0 6px rgba(232, 93, 48, 0.12);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.eh-profile-card__avatar:hover {
+    box-shadow: 0 0 0 8px rgba(232, 93, 48, 0.18);
+    transform: translateY(-1px);
+}
+
+.eh-profile-card__avatar:focus-visible {
+    outline: 2px solid var(--color-chili);
+    outline-offset: 4px;
+}
+
+.eh-profile-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.eh-profile-card__avatar-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--color-chili);
+    color: var(--color-espresso);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-espresso);
+}
+
+.eh-profile-card__identity {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.eh-profile-card__tier {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    border: 1px solid var(--color-gold-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+}
+
+.eh-profile-card__name {
+    font-family: var(--font-display);
+    font-weight: 560;
+    font-size: 28px;
+    line-height: 1.15;
+    margin: 0;
+    color: var(--color-parchment);
+}
+
+.eh-profile-card__email {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-parchment-dim);
+    overflow-wrap: anywhere;
+}
+
+.eh-profile-card__divider {
+    margin: 28px 0 20px;
+    border-top: 1px dashed var(--color-espresso-border);
+}
+
+.eh-profile-card__meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+}
+
+.eh-profile-card__meta-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-parchment-dim);
+    margin-bottom: 6px;
+}
+
+.eh-profile-card__meta-value {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    color: var(--color-parchment);
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout grid for the two sections below the hero                     */
+/* ------------------------------------------------------------------ */
+.eh-profile__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 780px) {
+    .eh-profile__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* Section cards (details / security)                                  */
+/* ------------------------------------------------------------------ */
+.eh-profile-section {
+    background: var(--color-espresso);
+    border: 1px solid var(--color-espresso-border);
+    border-radius: var(--radius-card);
+    padding: 32px;
+}
+
+.eh-profile-section__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.eh-profile-section__title {
+    font-family: var(--font-display);
+    font-weight: 560;
+    font-size: 20px;
+    margin: 0 0 6px;
+    color: var(--color-parchment);
+}
+
+.eh-profile-section__subtitle {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-parchment-dim);
+    max-width: 32ch;
+}
+
+/* ------------------------------------------------------------------ */
+/* Status messages                                                     */
+/* ------------------------------------------------------------------ */
+.eh-status {
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: var(--radius-field);
+    margin-bottom: 18px;
+}
+
+.eh-status--success {
+    color: var(--color-success);
+    background: var(--color-success-bg);
+    border: 1px solid rgba(122, 176, 138, 0.3);
+}
+
+.eh-status--error {
+    color: var(--color-error);
+    background: var(--color-error-bg);
+    border: 1px solid rgba(229, 105, 92, 0.3);
+}
+
+/* ------------------------------------------------------------------ */
+/* Forms                                                                */
+/* ------------------------------------------------------------------ */
+.eh-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.eh-profile-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.eh-profile-form__label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-parchment-dim);
+}
+
+.eh-profile-form__input {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-parchment);
+    background: var(--color-espresso-light);
+    border: 1px solid var(--color-espresso-border);
+    border-radius: var(--radius-field);
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.eh-profile-form__input::placeholder {
+    color: rgba(196, 178, 162, 0.5);
+}
+
+.eh-profile-form__input:focus-visible {
+    border-color: var(--color-chili);
+    box-shadow: 0 0 0 3px rgba(232, 93, 48, 0.18);
+}
+
+.eh-profile-form__input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.eh-profile-form__error {
+    font-size: 12px;
+    color: var(--color-error);
+}
+
+.eh-profile-form__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Buttons                                                             */
+/* ------------------------------------------------------------------ */
+.eh-btn {
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 600;
+    border-radius: var(--radius-field);
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease,
+        box-shadow 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
+}
+
+.eh-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.eh-btn--primary {
+    background: var(--color-chili);
+    color: var(--color-espresso);
+}
+
+.eh-btn--primary:hover:not(:disabled) {
+    background: var(--color-chili-hover);
+    box-shadow: 0 8px 20px -8px var(--color-ember-glow);
+}
+
+.eh-btn--primary:active:not(:disabled) {
+    background: var(--color-chili-press);
+    transform: translateY(1px);
+}
+
+.eh-btn--ghost {
+    background: transparent;
+    border-color: var(--color-espresso-border);
+    color: var(--color-parchment);
+}
+
+.eh-btn--ghost:hover:not(:disabled) {
+    border-color: var(--color-chili);
+    color: var(--color-chili);
+}
+
+.eh-btn:focus-visible {
+    outline: 2px solid var(--color-chili);
+    outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                          */
+/* ------------------------------------------------------------------ */
+@media (max-width: 560px) {
+    .eh-profile {
+        padding: 48px 16px 72px;
+    }
+
+    .eh-profile-card,
+    .eh-profile-section {
+        padding: 24px;
+    }
+
+    .eh-profile-card__top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .eh-profile-card__meta {
+        gap: 20px;
+    }
+
+    .eh-profile-section__header {
+        flex-direction: column;
+    }
+
+    .eh-profile-form__actions {
+        justify-content: stretch;
+    }
+
+    .eh-profile-form__actions .eh-btn {
+        flex: 1;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* Reduced motion                                                      */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+    .eh-profile-card__glow {
+        animation: none;
+    }
+
+    .eh-btn,
+    .eh-profile-card__avatar,
+    .eh-profile-form__input {
+        transition: none;
+    }
+}
